@@ -42,11 +42,6 @@ public class AuthorTemplateTest {
 
         Assert.assertTrue(Files.exists(outputDirectory.resolve("auth/OAuth.mustache")));
 
-        // check libraries files and subdirectories
-        Assert.assertTrue(Files.exists(outputDirectory.resolve("libraries/webclient/ApiClient.mustache")));
-        Assert.assertTrue(Files.exists(outputDirectory.resolve("libraries/webclient/pom.mustache")));
-        Assert.assertTrue(Files.exists(outputDirectory.resolve("libraries/webclient/auth/OAuth.mustache")));
-
         // check non-existence of unselected libraries
         Assert.assertFalse(Files.exists(outputDirectory.resolve("libraries/feign/build.gradle.mustache")));
         Assert.assertFalse(Files.exists(outputDirectory.resolve("libraries/feign/auth/OAuth.mustache")));
