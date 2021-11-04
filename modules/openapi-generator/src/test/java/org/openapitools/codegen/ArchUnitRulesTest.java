@@ -15,11 +15,6 @@ public class ArchUnitRulesTest {
                                               .importPackages("org.openapitools.codegen.languages");
 
     @Test
-    public void testLoggersAreNotPublicFinalAndNotStatic() {
-        ArchUnitRulesTest.LOGGERS_SHOULD_BE_NOT_PUBLIC_NOT_STATIC_AND_FINAL.check(CLASSES);
-    }
-
-    @Test
     public void classesNotAllowedToUseStandardStreams() {
         NO_CLASSES_SHOULD_ACCESS_STANDARD_STREAMS.check(CLASSES);
     }

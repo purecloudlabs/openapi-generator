@@ -175,6 +175,11 @@ public class CodegenConstants {
     public static final String PACKAGE_COPYRIGHT = "packageCopyright";
     public static final String PACKAGE_COPYRIGHT_DESC = "Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
 
+    public static final String PACKAGE_AUTHOR = "packageAuthor";
+    public static final String PACKAGE_AUTHOR_EMAIL = "packageAuthorEmail";
+    public static final String PACKAGE_URL = "packageUrl";
+    public static final String PACKAGE_KEYWORDS = "packageKeywords";
+
     public static final String POD_VERSION = "podVersion";
 
     public static final String OPTIONAL_METHOD_ARGUMENT = "optionalMethodArgument";
