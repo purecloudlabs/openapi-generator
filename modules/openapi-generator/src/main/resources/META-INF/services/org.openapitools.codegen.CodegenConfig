@@ -139,3 +139,4 @@ org.openapitools.codegen.languages.WebMessagingJavaClientCodegen
 org.openapitools.codegen.languages.PureCloudDotNetClientCodegen
 org.openapitools.codegen.languages.PureCloudPythonClientCodegen
 org.openapitools.codegen.languages.PureCloudSwift4ClientCodegen
+org.openapitools.codegen.languages.PureCloudGoClientCodegen
