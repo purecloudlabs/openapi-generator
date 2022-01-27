@@ -14,7 +14,7 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-public abstract class PureCloudGoClientCodegen extends GoClientCodegen {
+public class PureCloudGoClientCodegen extends GoClientCodegen {
     private static String OPERATION_ID_PROPERTY_NAME = "x-purecloud-method-name";
     protected Logger LOGGER = LoggerFactory.getLogger(PureCloudGoClientCodegen.class);
 
