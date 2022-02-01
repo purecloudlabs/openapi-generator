@@ -236,8 +236,9 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
-            if (operation.summary != null)
+            if (operation.summary != null) {
                 operation.summary = processDescription(operation.summary);
+            }
         }
         return super.postProcessOperationsWithModels(objs, allModels);
     }
