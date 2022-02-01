@@ -79,23 +79,9 @@ public class CodegenOperation {
         JsonNode jsonNode = mapper.readValue(json, JsonNode.class);
         List<String> permissionsList = new ArrayList<>();
         for (JsonNode permission : jsonNode.get("permissions")) {
-            System.out.println(permission);
             permissionsList.add(permission.toString().replaceAll("\"", ""));
         }
         return permissionsList;
-    }
-
-    /**
-     * Returns the permission type
-     *
-     * @return the permission type
-     */
-    public String getPermissionType() {
-        if (!vendorExtensions.containsKey("x-inin-requires-permissions")) {
-            return "NO";
-        }
-        ObjectNode permissions = (ObjectNode)vendorExtensions.get("x-inin-requires-permissions");
-        return permissions.get("type").toString().replaceAll("\"", "");
     }
 
     /**
