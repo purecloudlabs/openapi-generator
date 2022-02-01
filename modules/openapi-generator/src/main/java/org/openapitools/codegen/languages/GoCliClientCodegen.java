@@ -1,7 +1,6 @@
 package org.openapitools.codegen.languages;
 
-//import io.swagger.codegen.*;
-import io.swagger.models.Operation;
+import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.slf4j.Logger;
@@ -108,7 +107,7 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
      * @param httpMethod the HTTP method of the operation
      * @return the (generated) operationId
      */
-    protected String getOrGenerateOperationId(io.swagger.v3.oas.models.Operation operation, String path, String httpMethod) {
+    protected String getOrGenerateOperationId(Operation operation, String path, String httpMethod) {
         return operation.getOperationId();
     }
 
@@ -135,7 +134,7 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
      * @param operations map of Codegen operations
      */
     @SuppressWarnings("static-method")
-    public void addOperationToGroup(String tag, String resourcePath, io.swagger.v3.oas.models.Operation operation, CodegenOperation
+    public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation
             co, Map<String, List<CodegenOperation>> operations) {
         List<CodegenOperation> opList = operations.get(tag);
         if (opList == null) {
@@ -212,11 +211,6 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
-//        if (parameter.baseName.equals("permissions")) {
-//            System.out.println("LOOKHERE " + parameter.baseName);
-//        }
-
-
         if (parameter.description != null)
             parameter.description = processDescription(parameter.description);
         if (!parameter.isBodyParam)
