@@ -60,8 +60,8 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
-        additionalProperties.put("addImports", "{{=it.addImports}}");
-        additionalProperties.put("addCommands", "{{=it.addCommands}}");
+        additionalProperties.put("addImports", "{{addit.addImports}}");
+        additionalProperties.put("addCommands", "{{addit.addCommands}}");
 
         apiPackage = packageName;
 
@@ -212,6 +212,10 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         super.postProcessParameter(parameter);
+//        if (parameter.baseName.equals("permissions")) {
+//            System.out.println("LOOKHERE " + parameter.baseName);
+//        }
+
 
         if (parameter.description != null)
             parameter.description = processDescription(parameter.description);
