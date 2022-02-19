@@ -1,5 +1,8 @@
 package org.openapitools.codegen.languages;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -190,11 +193,26 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
         }
     }
 
+    private JsonNode convertJsonStringToJsonNode(String json) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(json, JsonNode.class);
+    }
+
+    private String convertJsonNodeToString(JsonNode jsonNode) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(jsonNode);
+    }
+
     // This vendor extension is used as a template var to define json objects as lists or maps with default values of their type
     // so that they're printed to the cli correctly and not as the default null.
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
+
+        if (property.getJsonSchema().contains("allOf")) {
+            property.isReadOnly = true;
+        }
+
         String customPropertyName = "x-dataTypeWithDefaults";
         String customValue;
         if (property.dataType.equals("interface{}"))
