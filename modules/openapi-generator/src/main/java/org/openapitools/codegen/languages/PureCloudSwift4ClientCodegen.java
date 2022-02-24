@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PureCloudSwift4ClientCodegen extends Swift4Codegen {
     private static String OPERATION_ID_PROPERTY_NAME = "x-purecloud-method-name";
@@ -77,11 +74,11 @@ public class PureCloudSwift4ClientCodegen extends Swift4Codegen {
         if (type != null && !type.equals("")) {
             if (p.defaultValue != null && !p.defaultValue.equals((""))) {
                 p.example = p.defaultValue;
-                if (type.toLowerCase().equals("string")) {
+                if (type.toLowerCase(Locale.getDefault()).equals("string")) {
                     p.example = "\"" + p.example + "\"";
                 }
             } else {
-                switch (type.toLowerCase()) {
+                switch (type.toLowerCase(Locale.getDefault())) {
                     case "character":
                     case "string": {
                         p.example = "\"\"";
