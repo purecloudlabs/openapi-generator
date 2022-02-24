@@ -2185,7 +2185,7 @@ public class DefaultCodegen implements CodegenConfig {
      * @param schema
      * @return type
      */
-    private String getPrimitiveType(Schema schema) {
+    protected String getPrimitiveType(Schema schema) {
         if (schema == null) {
             throw new RuntimeException("schema cannot be null in getPrimitiveType");
         } else if (typeMapping.containsKey(schema.getType() + "+" + schema.getFormat())) {
