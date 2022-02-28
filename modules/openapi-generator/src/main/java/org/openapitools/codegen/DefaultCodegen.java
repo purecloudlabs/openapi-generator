@@ -828,6 +828,18 @@ public class DefaultCodegen implements CodegenConfig {
     @Override
     @SuppressWarnings("unused")
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
+        if (property.getJsonSchema().contains("allOf")) {
+            if (property.description == null) {
+                property.isReadOnly = true;
+                return;
+            }
+            if (property.description.equals("")) {
+                property.isReadOnly = true;
+            } else if (property.description.endsWith("readOnly")) {
+                property.isReadOnly = true;
+            }
+            property.description = property.description.replaceAll(" readOnly$", "");
+        }
     }
 
     // override to post-process any parameters
