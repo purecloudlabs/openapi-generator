@@ -198,11 +198,6 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
-
-        if (property.getJsonSchema().contains("allOf")) {
-            property.isReadOnly = true;
-        }
-
         String customPropertyName = "x-dataTypeWithDefaults";
         String customValue;
         if (property.dataType.equals("interface{}"))
