@@ -5,10 +5,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MapSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.CodegenModel;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,7 +113,7 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         } else if (ModelUtils.isMapSchema(s)) {
             MapSchema mapSchema = (MapSchema) s;
             Schema inner = (Schema) mapSchema.getAdditionalProperties();
-            if (inner.getType() == "object") {
+            if (inner.getType() != null && inner.getType().equals("object")) {
                 // Prevent `map[string]map[string]interface{}` when map value type is object
                 return getSchemaType(s) + "[string]interface{}";
             } else {
@@ -164,9 +161,15 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         if (property == null) return;
         // Override for custom swagger format: local-date-time
         // This is a datatype that contains a date and time, but no timezone
-        if (property.dataType.equals("time.Time") && property.isString && property.isString) {
+        if (property.dataType.equals("time.Time") && Boolean.TRUE.equals(property.isString) && property.isString) {
             property.isDateTime = true;
             property.vendorExtensions.put("x-local-date-time", "true");
+        }
+        if (property.dataType.equals("map[string]Object")) {
+            property.dataType = "map[string]interface{}";
+        }
+        if (property.name.equals("Type")) {
+            property.name = escapeReservedWord(property.name);
         }
     }
 
@@ -181,12 +184,21 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
                     l.dataType = "*" + l.dataType;
                 }
             }
-            if (!cp.isPrimitiveType && codegenModelMap.containsKey(cp.dataType) && !Arrays.stream(lineage).anyMatch(l -> l.dataType.equalsIgnoreCase((cp.dataType)))) {
+            if ((Boolean.FALSE.equals(cp.isPrimitiveType) || !cp.isPrimitiveType) && codegenModelMap.containsKey(cp.dataType) && !Arrays.stream(lineage).anyMatch(l -> l.dataType.equalsIgnoreCase((cp.dataType)))) {
                 ArrayList<CodegenProperty> lineageAL = new ArrayList<>(Arrays.asList(lineage));
                 lineageAL.add(cp);
                 CodegenProperty[] lineageArray = lineageAL.toArray(new CodegenProperty[0]);
                 markRecursiveProperties(codegenModelMap.get(cp.dataType), lineageArray);
             }
+        }
+    }
+
+    // override to post-process any parameters
+    @SuppressWarnings("unused")
+    @Override
+    public void postProcessParameter(CodegenParameter parameter) {
+        if (parameter.isBodyParam && parameter.paramName.equals("body") && parameter.dataType.equals("map[string]interface{}")) {
+            parameter.dataType = "interface{}";
         }
     }
 
@@ -200,8 +212,9 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
-                if (operation.httpMethod != null)
+                if (operation.httpMethod != null) {
                     operation.httpMethod = operation.httpMethod.toUpperCase();
+                }
             }
         }
         return objs;
