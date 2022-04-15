@@ -1,8 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.models.Operation;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
@@ -17,12 +14,9 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
 
     public GoCliClientCodegen() {
         super();
-
         typeMapping.put("integer", "int");
         typeMapping.put("long", "int");
-
         outputFolder = "generated-code/go";
-
         embeddedTemplateDir = templateDir = "go";
     }
 
@@ -34,7 +28,6 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
         // Wipe out all the templates so we can start with a clean slate
         this.apiTemplateFiles.clear();
         this.apiDocTemplateFiles.clear();
