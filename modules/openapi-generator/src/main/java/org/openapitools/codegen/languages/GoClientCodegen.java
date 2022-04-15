@@ -348,7 +348,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             // http method verb conversion (e.g. PUT => Put)
-            operation.httpMethod = camelize(operation.httpMethod.toLowerCase());
+            operation.httpMethod = camelize(operation.httpMethod.toLowerCase(Locale.getDefault()));
         }
         // remove model imports to avoid error
         List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
