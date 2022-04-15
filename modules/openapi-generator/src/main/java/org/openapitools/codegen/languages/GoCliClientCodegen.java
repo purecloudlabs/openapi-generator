@@ -79,7 +79,7 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
 
     @Override
     public String toApiFilename(String name) {
-        name = name.toLowerCase();
+        name = name.toLowerCase(Locale.getDefault());
         name = name + File.separatorChar + name;
 
         name = name.replaceAll("_test$", "_testfile");
@@ -138,14 +138,14 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
             operations.put(tag, opList);
         }
 
-        co.operationIdLowerCase = co.operationId.toLowerCase();
+        co.operationIdLowerCase = co.operationId.toLowerCase(Locale.getDefault());
         opList.add(co);
         co.baseName = tag;
     }
 
     @Override
     public String toApiVarName(String name) {
-        name = name.toLowerCase();
+        name = name.toLowerCase(Locale.getDefault());
         name = name.replaceAll("_test$", "_testfile");
         name = name.replaceAll("_test/", "_testfile/");
 
@@ -218,7 +218,7 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
             parameter.vendorExtensions.put("x-baseType", "Interface");
         } else {
             // Set x-baseType as baseType but with the naming convention of the model template inside clisdkclient (Capitalfirstletteronly)
-            StringBuilder sb = new StringBuilder(parameter.baseType.toLowerCase());
+            StringBuilder sb = new StringBuilder(parameter.baseType.toLowerCase(Locale.getDefault()));
             char firstChar = parameter.baseType.charAt(0);
             sb.setCharAt(0, Character.toUpperCase(firstChar));
             parameter.vendorExtensions.put("x-baseType", sb.toString());
