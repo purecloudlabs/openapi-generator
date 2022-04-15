@@ -84,6 +84,7 @@ public class PureCloudJavaScriptClientCodegen extends DefaultCodegen implements 
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList("String", "Boolean", "Integer", "Number", "Array", "Object", "Date", "File"));
+
         defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
         instantiationTypes.put("array", "Array");
         instantiationTypes.put("list", "Array");
