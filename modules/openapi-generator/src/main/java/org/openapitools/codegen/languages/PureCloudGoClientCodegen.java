@@ -73,12 +73,12 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
 
     @Override
     public String toModelFilename(String name) {
-        return super.toModelFilename(name).replaceAll("_", "").toLowerCase();
+        return super.toModelFilename(name).replaceAll("_", "").toLowerCase(Locale.getDefault());
     }
 
     @Override
     public String toApiFilename(String name) {
-        return super.toApiFilename(name).replaceAll("_", "").toLowerCase();
+        return super.toApiFilename(name).replaceAll("_", "").toLowerCase(Locale.getDefault());
     }
 
     @Override
@@ -213,7 +213,7 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
                 if (operation.httpMethod != null) {
-                    operation.httpMethod = operation.httpMethod.toUpperCase();
+                    operation.httpMethod = operation.httpMethod.toUpperCase(Locale.getDefault());
                 }
             }
         }
