@@ -64,7 +64,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         "break", "default", "func", "interface", "select",
                         "case", "defer", "go", "map", "struct",
                         "chan", "else", "goto", "package", "switch",
-                        "const", "fallthrough", "if", "range", "type",
+                        "const", "fallthrough", "if", "range", "type", "Type",
                         "continue", "for", "import", "return", "var", "error", "ApiResponse")
                 // Added "error" as it's used so frequently that it may as well be a keyword
         );
@@ -314,19 +314,21 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return toModelName(swaggerType);
     }
 
-//    @Override
-//    public String getSwaggerType(Property p) {
-//        String swaggerType = super.getSwaggerType(p);
-//        String type = null;
-//        if(typeMapping.containsKey(swaggerType)) {
-//            type = typeMapping.get(swaggerType);
-//            if(languageSpecificPrimitives.contains(type))
-//                return (type);
-//        }
-//        else
-//            type = swaggerType;
-//        return type;
-//    }
+    @Override
+    public String getSchemaType(Schema p) {
+        String swaggerType = super.getSchemaType(p);
+        String type = null;
+        if(typeMapping.containsKey(swaggerType)) {
+            type = typeMapping.get(swaggerType);
+            if(languageSpecificPrimitives.contains(type)) {
+                return type;
+            }
+        } else {
+            type = swaggerType;
+        }
+
+        return type;
+    }
 
     @Override
     public String toOperationId(String operationId) {
