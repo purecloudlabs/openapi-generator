@@ -169,15 +169,24 @@ public class CodegenConstants {
     public static final String PACKAGE_PRODUCTNAME_DESC = "Specifies an AssemblyProduct for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
     public static final String PACKAGE_DESCRIPTION = "packageDescription";
     public static final String PACKAGE_DESCRIPTION_DESC = "Specifies a AssemblyDescription for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
+    public static final String PACKAGE_CONFIGURATION = "packageConfiguration";
     public static final String PACKAGE_COMPANY = "packageCompany";
     public static final String PACKAGE_COMPANY_DESC = "Specifies an AssemblyCompany for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
+    public static final String PACKAGE_PRODUCT_NAME = "packageProductName";
     public static final String PACKAGE_AUTHORS = "packageAuthors";
     public static final String PACKAGE_AUTHORS_DESC = "Specifies Authors property in the .NET Core project file.";
     public static final String PACKAGE_URL = "packageUrl";
     public static final String PACKAGE_COPYRIGHT = "packageCopyright";
     public static final String PACKAGE_COPYRIGHT_DESC = "Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.";
+    public static final String PACKAGE_TRADEMARK = "packageTrademark";
+    public static final String PACKAGE_CULTURE = "packageCulture";
+
+    public static final String PACKAGE_AUTHOR = "packageAuthor";
+    public static final String PACKAGE_AUTHOR_EMAIL = "packageAuthorEmail";
+    public static final String PACKAGE_KEYWORDS = "packageKeywords";
 
     public static final String POD_VERSION = "podVersion";
+    public static final String MAJOR_VERSION = "majorVersion";
 
     public static final String OPTIONAL_METHOD_ARGUMENT = "optionalMethodArgument";
     public static final String OPTIONAL_METHOD_ARGUMENT_DESC = "Optional method argument, e.g. void square(int x=10) (.net 4.0+ only).";
