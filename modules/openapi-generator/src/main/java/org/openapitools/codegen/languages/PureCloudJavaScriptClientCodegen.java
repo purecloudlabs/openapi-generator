@@ -1,9 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import com.google.common.base.Strings;
-import io.swagger.models.properties.ArrayProperty;
-import io.swagger.models.properties.MapProperty;
-import io.swagger.models.properties.Property;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
@@ -812,7 +808,7 @@ public class PureCloudJavaScriptClientCodegen extends DefaultCodegen implements 
         }
         // for symbol, e.g. $, #
         if (getSymbolName(value) != null) {
-            return (getSymbolName(value)).toUpperCase();
+            return (getSymbolName(value)).toUpperCase(Locale.getDefault());
         }
         return value;
     }
