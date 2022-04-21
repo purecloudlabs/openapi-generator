@@ -141,6 +141,8 @@ public class PureCloudJavaScriptClientCodegen extends DefaultCodegen implements 
         cliOptions.add(new CliOption(USE_INHERITANCE,
                 "use JavaScript prototype chains & delegation for inheritance")
                 .defaultValue(Boolean.TRUE.toString()));
+
+        apiDocTemplateFiles.put("api_json.mustache", ".json");
     }
 
     @Override
