@@ -143,6 +143,7 @@ public class PureCloudJavaScriptClientCodegen extends DefaultCodegen implements 
                 .defaultValue(Boolean.TRUE.toString()));
 
         apiDocTemplateFiles.put("api_json.mustache", ".json");
+        operationTemplateFiles.put("operation_example.mustache", "-example.txt");
     }
 
     @Override

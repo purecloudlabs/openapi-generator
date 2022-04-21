@@ -16,6 +16,7 @@ public class PureCloudJavaGuestClientCodegen extends PureCloudJavaClientCodegen 
         // Type overrides
         typeMapping.put("date", "LocalDate");
         apiDocTemplateFiles.put("api_json.mustache", ".json");
+        operationTemplateFiles.put("operation_example.mustache", "-example.txt");
     }
 
     @Override

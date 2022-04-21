@@ -23,6 +23,7 @@ public class PureCloudPythonClientCodegen extends PythonClientCodegen {
 
         reservedWords.add("property");
         apiDocTemplateFiles.put("api_json.mustache", ".json");
+        operationTemplateFiles.put("operation_example.mustache", "-example.txt");
     }
 
 

@@ -5,6 +5,7 @@ public class PureCloudJavaScriptGuestClientCodegen extends PureCloudJavaScriptCl
     public PureCloudJavaScriptGuestClientCodegen() {
         super();
         apiDocTemplateFiles.put("api_json.mustache", ".json");
+        operationTemplateFiles.put("operation_example.mustache", "-example.txt");
     }
 
     @Override

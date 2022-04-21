@@ -68,6 +68,7 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
         apiTemplateFiles.put("api.mustache", ".go");
         modelTemplateFiles.put("model.mustache", ".go");
         apiDocTemplateFiles.put("api_json.mustache", ".json");
+        operationTemplateFiles.put("operation_example.mustache", "-example.txt");
     }
 
     public String modelFileFolder() {
