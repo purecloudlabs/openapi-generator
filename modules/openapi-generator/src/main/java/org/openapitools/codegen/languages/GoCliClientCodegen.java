@@ -143,7 +143,7 @@ public class GoCliClientCodegen extends PureCloudGoClientCodegen {
         if (operation.getExtensions().containsKey(ORIGINAL_OPERATION_ID_PROPERTY_NAME)) {
             co.originalOperationId = operation.getExtensions().get(ORIGINAL_OPERATION_ID_PROPERTY_NAME).toString();
             if (!StringUtils.isBlank(co.originalOperationId)) {
-                co.operationIdLowerCase = co.originalOperationId.toLowerCase();
+                co.operationIdLowerCase = co.originalOperationId.toLowerCase(Locale.getDefault());
             }
         }
         opList.add(co);
