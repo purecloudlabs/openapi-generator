@@ -23,7 +23,7 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         // Use default templates
         embeddedTemplateDir = templateDir = "go";
         supportingFiles.add(new SupportingFile("Makefile.mustache", "", "Makefile"));
-        supportingFiles.add(new SupportingFile("api_file.mustache", "", "api_file"));
+        supportingFiles.add(new SupportingFile("sdk_json.mustache", "", "SDKData.json"));
         // Go type for arbitrary objects
         // Mainly used for API types of Map<string, Object>, which are objects with additional properties of type object
         typeMapping.put("object", "interface{}");
