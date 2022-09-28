@@ -289,8 +289,7 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
         } else if (ModelUtils.isArraySchema(schema)) {
             // BUG FIX Lists default value should be null
             return "null";
-        }
-        else {
+        } else {
             return super.toDefaultValue(schema);
         }
     }
