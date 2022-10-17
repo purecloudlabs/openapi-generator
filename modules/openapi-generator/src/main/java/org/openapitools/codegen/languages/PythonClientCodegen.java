@@ -60,6 +60,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         languageSpecificPrimitives.add("datetime");
         languageSpecificPrimitives.add("date");
         languageSpecificPrimitives.add("object");
+        languageSpecificPrimitives.add("dict");
+        languageSpecificPrimitives.add("file");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -85,6 +87,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         typeMapping.put("Set", "list");
         typeMapping.put("set", "list");
         typeMapping.put("URI", "str");
+
 
         // from https://docs.python.org/release/2.5.4/ref/keywords.html
         setReservedWordsLowerCase(

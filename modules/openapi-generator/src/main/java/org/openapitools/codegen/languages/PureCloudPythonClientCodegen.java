@@ -1,11 +1,13 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.servers.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -103,8 +105,12 @@ public class PureCloudPythonClientCodegen extends PythonClientCodegen {
                 List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
                 for (CodegenOperation operation : ops) {
                     if (operation.returnType != null) {
-                        if (isEmpty(operation.responses.get(0).jsonSchema)) {
+                        String jsonSchema = operation.responses.get(0).jsonSchema;
+                        if (isEmpty(jsonSchema)) {
                             operation.returnType = "Empty";
+                        }
+                        if (jsonSchema.contains("additionalProperties") && jsonSchema.contains("object") && jsonSchema.contains("type")) {
+                            operation.returnType = "dict[str, Any]";
                         }
                     }
                 }
