@@ -1,17 +1,13 @@
 package org.openapitools.codegen.languages;
 
-import io.swagger.models.properties.*;
-
 import java.io.File;
 import java.util.*;
-
 import io.swagger.v3.oas.models.media.*;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -60,6 +56,8 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         languageSpecificPrimitives.add("datetime");
         languageSpecificPrimitives.add("date");
         languageSpecificPrimitives.add("object");
+        languageSpecificPrimitives.add("dict");
+        languageSpecificPrimitives.add("file");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -85,6 +83,7 @@ public class PythonClientCodegen extends AbstractPythonCodegen {
         typeMapping.put("Set", "list");
         typeMapping.put("set", "list");
         typeMapping.put("URI", "str");
+
 
         // from https://docs.python.org/release/2.5.4/ref/keywords.html
         setReservedWordsLowerCase(
