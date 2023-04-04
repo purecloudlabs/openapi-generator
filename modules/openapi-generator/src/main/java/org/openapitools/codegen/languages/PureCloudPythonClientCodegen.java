@@ -23,6 +23,7 @@ public class PureCloudPythonClientCodegen extends PythonClientCodegen {
         reservedWords.add("property");
         apiDocTemplateFiles.put("api_json.mustache", ".json");
         operationTemplateFiles.put("operation_example.mustache", "-example.txt");
+        typeMapping.put("file", "str");
     }
 
 
@@ -78,15 +79,25 @@ public class PureCloudPythonClientCodegen extends PythonClientCodegen {
                 for (CodegenProperty cp : vars) {
                     if (cp.dataType.contains("list[")) {
                         String item = cp.dataType.substring(cp.dataType.indexOf('[')+1, cp.dataType.indexOf(']'));
-                        if (Character.isUpperCase(item.charAt(0))) {
+                        if (item.contains("list[")) {
+                            item = cp.dataType.substring(cp.dataType.indexOf('[')+1, cp.dataType.indexOf(']') +1);
+                            String innerItem = item.substring(item.indexOf('[')+1, item.indexOf(']'));
+                            String newDataType = "List" + "[" + "List" + "[" + innerItem + "]" + "]";
+                            cp.vendorExtensions.put("x-dataType", newDataType);
+                        } else if (Character.isUpperCase(item.charAt(0))) {
                             String newDataType = "List" + "[" + "'" + item + "'" + "]";
                             cp.vendorExtensions.put("x-dataType", newDataType);
                         } else if (item.contains("dict(")) {
                             String key =  item.substring(item.indexOf('(') + 1, item.indexOf(','));
-                            String value =  item.substring(item.indexOf(' ') + 1, item.indexOf(')'));
-                            String newDataType = "List" + "[" + "Dict" + "[" + key + "," + " " + value + "]" + "]";
-                            System.out.println(newDataType);
-                            cp.vendorExtensions.put("x-dataType", newDataType);
+                            String value = item.substring(item.indexOf(' ') + 1, item.indexOf(')'));
+                            if (Character.isUpperCase(value.charAt(0))) {
+                                String newValue = "'" + value + "'";
+                                String newDataType = "List" + "[" + "Dict" + "[" + key + "," + " " + newValue + "]" + "]";
+                                cp.vendorExtensions.put("x-dataType", newDataType);
+                            } else {
+                                String newDataType = "List" + "[" + "Dict" + "[" + key + "," + " " + value + "]" + "]";
+                                cp.vendorExtensions.put("x-dataType", newDataType);
+                            }
                         } else {
                             String newDataType = "List" + "[" + item + "]";
                             cp.vendorExtensions.put("x-dataType", newDataType);
@@ -94,7 +105,13 @@ public class PureCloudPythonClientCodegen extends PythonClientCodegen {
                     } else if (cp.dataType.contains("dict(")) {
                         String key =  cp.dataType.substring(cp.dataType.indexOf('(') + 1, cp.dataType.indexOf(','));
                         String value =  cp.dataType.substring(cp.dataType.indexOf(' ') + 1, cp.dataType.indexOf(')'));
-                        if (value.contains("list[")) {
+                        if (value.contains("dict(")) {
+                            value =  cp.dataType.substring(cp.dataType.indexOf(' ') + 1, cp.dataType.indexOf(')') + 1);
+                            String innerKey =  value.substring(value.indexOf('(') + 1, value.indexOf(','));
+                            String innerValue =  value.substring(value.indexOf(' ') + 1, value.indexOf(')'));
+                            String newDataType = "Dict" + "[" + key + "," + " " + "Dict" + "[" + innerKey + "," + " " + innerValue + "]" + "]";
+                            cp.vendorExtensions.put("x-dataType", newDataType);
+                        } else if (value.contains("list[")) {
                             String item = cp.dataType.substring(cp.dataType.indexOf('[') + 1, cp.dataType.indexOf(']'));
                             if (Character.isUpperCase(item.charAt(0))) {
                                 String newDataType = "Dict" + "[" + key + "," + " " + "List" + "[" + "'" + item + "'" + "]";
@@ -103,8 +120,7 @@ public class PureCloudPythonClientCodegen extends PythonClientCodegen {
                                 String newDataType = "Dict" + "[" + key + "," + " " + "List" + "[" + item + "]";
                                 cp.vendorExtensions.put("x-dataType", newDataType);
                             }
-                        }
-                        if (Character.isUpperCase(value.charAt(0))) { // value is a model
+                        } else if (Character.isUpperCase(value.charAt(0))) { // value is a model
                             String newValue = "'" + value + "'";
                             String newDataType = "Dict" + "[" + key + "," + " " + newValue + "]";
                             cp.vendorExtensions.put("x-dataType", newDataType);
@@ -167,26 +183,67 @@ public class PureCloudPythonClientCodegen extends PythonClientCodegen {
                     }
                     // Determine the python "type hinting" data type for operation return types
                     if (operation.returnType != null) {
-                        if (operation.returnType.contains("dict(")) {
+                        if (operation.returnType.contains("list[")) {
+                            String item = operation.returnType.substring(operation.returnType.indexOf('[')+1, operation.returnType.indexOf(']'));
+                            if (item.contains("list[")) {
+                                item = operation.returnType.substring(operation.returnType.indexOf('[')+1, operation.returnType.indexOf(']') +1);
+                                String innerItem = item.substring(item.indexOf('[')+1, item.indexOf(']'));
+                                String newDataType = "List" + "[" + "List" + "[" + innerItem + "]" + "]";
+                                operation.vendorExtensions.put("x-returnType", newDataType);
+                            } else if (Character.isUpperCase(item.charAt(0))) {
+                                String newDataType = "List" + "[" + "'" + item + "'" + "]";
+                                operation.vendorExtensions.put("x-returnType", newDataType);
+                            } else if (item.contains("dict(")) {
+                                String key =  item.substring(item.indexOf('(') + 1, item.indexOf(','));
+                                String value = item.substring(item.indexOf(' ') + 1, item.indexOf(')'));
+                                if (Character.isUpperCase(value.charAt(0))) {
+                                    String newValue = "'" + value + "'";
+                                    String newDataType = "List" + "[" + "Dict" + "[" + key + "," + " " + newValue + "]" + "]";
+                                    operation.vendorExtensions.put("x-returnType", newDataType);
+                                } else {
+                                    String newDataType = "List" + "[" + "Dict" + "[" + key + "," + " " + value + "]" + "]";
+                                    operation.vendorExtensions.put("x-returnType", newDataType);
+                                }
+                            } else {
+                                String newDataType = "List" + "[" + item + "]";
+                                operation.vendorExtensions.put("x-returnType", newDataType);
+                            }
+                        } else if (operation.returnType.contains("dict(")) {
                             String key =  operation.returnType.substring(operation.returnType.indexOf('(') + 1, operation.returnType.indexOf(','));
                             String value =  operation.returnType.substring(operation.returnType.indexOf(' ') + 1, operation.returnType.indexOf(')'));
-                            String newDataType = "Dict" + "[" + key + "," + " " + value + "]";
-                            operation.vendorExtensions.put("x-returnType", newDataType);
-                        } else if (operation.returnType.contains("list[")) {
-                            String newDataType = "List[" + "'" + operation.returnType.substring(operation.returnType.indexOf('[')+1, operation.returnType.indexOf(']')) + "']";
-                            operation.vendorExtensions.put("x-returnType", newDataType);
-                        } else if (!operation.returnTypeIsPrimitive && !operation.returnType.contains("list[")) {
+                            if (value.contains("dict(")) {
+                                value =  operation.returnType.substring(operation.returnType.indexOf(' ') + 1, operation.returnType.indexOf(')') + 1);
+                                String innerKey =  value.substring(value.indexOf('(') + 1, value.indexOf(','));
+                                String innerValue =  value.substring(value.indexOf(' ') + 1, value.indexOf(')'));
+                                String newDataType = "Dict" + "[" + key + "," + " " + "Dict" + "[" + innerKey + "," + " " + innerValue + "]" + "]";
+                                operation.vendorExtensions.put("x-returnType", newDataType);
+                            } else if (value.contains("list[")) {
+                                String item = operation.returnType.substring(operation.returnType.indexOf('[') + 1, operation.returnType.indexOf(']'));
+                                if (Character.isUpperCase(item.charAt(0))) {
+                                    String newDataType = "Dict" + "[" + key + "," + " " + "List" + "[" + "'" + item + "'" + "]";
+                                    operation.vendorExtensions.put("x-returnType", newDataType);
+                                } else {
+                                    String newDataType = "Dict" + "[" + key + "," + " " + "List" + "[" + item + "]";
+                                    operation.vendorExtensions.put("x-returnType", newDataType);
+                                }
+                            } else if (Character.isUpperCase(value.charAt(0))) { // value is a model
+                                String newValue = "'" + value + "'";
+                                String newDataType = "Dict" + "[" + key + "," + " " + newValue + "]";
+                                operation.vendorExtensions.put("x-returnType", newDataType);
+                            } else {
+                                String newDataType = "Dict" + "[" + key + "," + " " + value + "]";
+                                operation.vendorExtensions.put("x-returnType", newDataType);
+                            }
+                        } else if (Character.isUpperCase(operation.returnType.charAt(0))) {
                             String newDataType = "'" + operation.returnType + "'";
                             operation.vendorExtensions.put("x-returnType", newDataType);
                         } else {
                             operation.vendorExtensions.put("x-returnType", operation.returnType);
                         }
                     }
-
                 }
             }
         }
-
         return objs;
     }
 
