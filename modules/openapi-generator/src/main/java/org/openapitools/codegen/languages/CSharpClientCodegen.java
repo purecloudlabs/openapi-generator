@@ -33,11 +33,15 @@ import org.openapitools.codegen.languages.AbstractCSharpCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.apache.commons.lang3.StringUtils;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.servers.Server;
+ 
 public class CSharpClientCodegen extends AbstractCSharpCodegen {
-    @SuppressWarnings({"unused", "hiding"})
+    @SuppressWarnings({ "unused", "hiding" })
     private static final Logger LOGGER = LoggerFactory.getLogger(CSharpClientCodegen.class);
     private static final String NET45 = "v4.5";
+    private static final String NET47 = "v4.7";
     private static final String NET35 = "v3.5";
     private static final String UWP = "uwp";
     private static final String DATA_TYPE_WITH_ENUM_EXTENSION = "plainDatatypeWithEnum";
@@ -130,6 +134,7 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         frameworks = new ImmutableMap.Builder<String, String>()
                 .put(NET35, ".NET Framework 3.5 compatible")
                 .put(NET45, ".NET Framework 4.5+ compatible")
+                .put(NET47, ".NET Framework 4.7+ compatible")
                 .put(UWP, "Universal Windows Platform - beta support")
                 .build();
         framework.defaultValue(this.targetFramework);
@@ -532,4 +537,24 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
     public String modelTestFileFolder() {
         return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + modelPackage();
     }
+
+    public static String toCamelCase(String input) {
+        // Convert the input string to lowercase and remove any leading/trailing
+        // whitespace
+        String normalized = StringUtils.lowerCase(input);
+        // Capitalize the first character of each word
+        return StringUtils.capitalize(normalized);
+    }
+
+    @Override
+    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
+ 
+         CodegenOperation op = super.fromOperation(
+                 path, httpMethod, operation, null);
+ 
+         op.httpMethod = toCamelCase(httpMethod);
+ 
+         return op;
+     }
+
 }
