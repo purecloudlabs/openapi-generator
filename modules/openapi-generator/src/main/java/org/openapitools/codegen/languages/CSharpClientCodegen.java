@@ -538,23 +538,5 @@ public class CSharpClientCodegen extends AbstractCSharpCodegen {
         return outputFolder + File.separator + testFolder + File.separator + testPackageName() + File.separator + modelPackage();
     }
 
-    public static String toCamelCase(String input) {
-        // Convert the input string to lowercase and remove any leading/trailing
-        // whitespace
-        String normalized = StringUtils.lowerCase(input);
-        // Capitalize the first character of each word
-        return StringUtils.capitalize(normalized);
-    }
-
-    @Override
-    public CodegenOperation fromOperation(String path, String httpMethod, Operation operation, List<Server> servers) {
- 
-         CodegenOperation op = super.fromOperation(
-                 path, httpMethod, operation, null);
- 
-         op.httpMethod = toCamelCase(httpMethod);
- 
-         return op;
-     }
 
 }
