@@ -209,6 +209,11 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         if (parameter.isBodyParam && parameter.paramName.equals("body") && parameter.dataType.equals("map[string]interface{}")) {
             parameter.dataType = "interface{}";
         }
+
+        // Override any parameters called url otherwise they will clash with the net/url package
+        if (parameter.paramName.equals("url")){
+            parameter.paramName = "urlParam";
+        }
     }
 
     @Override
