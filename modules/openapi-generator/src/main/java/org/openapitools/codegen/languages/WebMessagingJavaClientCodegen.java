@@ -48,7 +48,7 @@ public class WebMessagingJavaClientCodegen extends PureCloudJavaClientCodegen {
         apiDocTemplateFiles.put("api_json.mustache", ".json");
 
         if (additionalProperties.get(CodegenConstants.ARTIFACT_ID).equals("web-messaging-sdk")) {
-            supportingFiles.add(new SupportingFile("pom.xml", "", "pom.xml"));
+            supportingFiles.add(new SupportingFile("pom.xml.mustache", "", "pom.xml"));
             supportingFiles.add(new SupportingFile("props.properties.mustache", "", "props.properties"));
         } else {
             supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
