@@ -66,7 +66,8 @@ public class WebMessagingJavaClientCodegen extends PureCloudJavaClientCodegen {
         supportingFiles.add(new SupportingFile("Configuration.mustache", invokerFolder, "Configuration.java"));
         supportingFiles.add(new SupportingFile("Pair.mustache", invokerFolder, "Pair.java"));
         supportingFiles.add(new SupportingFile("StringUtil.mustache", invokerFolder, "StringUtil.java"));
-
+        supportingFiles.add(new SupportingFile("FileUtils.mustache", invokerFolder, "FileUtils.java"));
+        
         final String authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
         supportingFiles.add(new SupportingFile("auth/OAuth.mustache", authFolder, "OAuth.java"));
         supportingFiles.add(new SupportingFile("auth/Authentication.mustache", authFolder, "Authentication.java"));
