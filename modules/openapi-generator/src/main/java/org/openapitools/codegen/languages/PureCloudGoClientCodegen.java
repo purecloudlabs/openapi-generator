@@ -180,6 +180,9 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         if (property.dataType.equals("Uuid")) {
             property.dataType = "string";
         }
+        if (property.dataType.equals("[]Uuid")) {
+            property.dataType = "[]string";
+        }
     }
 
     private void markRecursiveProperties(CodegenModel cm, CodegenProperty[] lineage) {
