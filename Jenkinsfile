@@ -22,14 +22,14 @@ pipeline {
     post{
         success{
             archiveArtifacts artifacts:'modules/openapi-generator-cli/target/openapi-generator-cli.jar' , fingerprint: true
-                mail to: 'kavin_arasu.balasubramanian@genesys.com',
-                subject: "SUCCESSFUL: Build ${env.JOB_NAME}", 
-                body: "Build Successful ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
+                mail to: 'developertooling@genesys.com',
+                subject: "Build Success: ${env.JOB_NAME}", 
+                body: "Build Successful ${env.JOB_NAME} \n build: ${env.BUILD_NUMBER}\n\nView the logs at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
         }
          failure {
-              mail to: 'kavin_arasu.balasubramanian@genesys.com',
-                subject: "FAILED: Build ${env.JOB_NAME}", 
-                body: "Build failed ${env.JOB_NAME} build no: ${env.BUILD_NUMBER}.\n\nView the log at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
+              mail to: 'developertooling@genesys.com',
+                subject: "Build Failed: ${env.JOB_NAME}", 
+                body: "Build failed ${env.JOB_NAME} \n build: ${env.BUILD_NUMBER}.\n\nView the logs at:\n ${env.BUILD_URL}\n\nBlue Ocean:\n${env.RUN_DISPLAY_URL}"
         }
     }
 }
