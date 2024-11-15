@@ -282,6 +282,8 @@ public class PureCloudJavaScriptClientCodegen extends DefaultCodegen implements 
         supportingFiles.add(new SupportingFile("index.mustache", createPath(sourceFolder, invokerPackage), "index.js"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", createPath(sourceFolder, invokerPackage), "ApiClient.js"));
         supportingFiles.add(new SupportingFile("configuration.mustache", createPath(sourceFolder, invokerPackage), "configuration.js"));
+        supportingFiles.add(new SupportingFile("DefaultHttpClient.mustache", createPath(sourceFolder, invokerPackage), "DefaultHttpClient.js"));
+        supportingFiles.add(new SupportingFile("abstractHttpClient.mustache", createPath(sourceFolder, invokerPackage), "abstractHttpClient.js"));
         supportingFiles.add(new SupportingFile("logger.mustache", createPath(sourceFolder, invokerPackage), "logger.js"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
     }
