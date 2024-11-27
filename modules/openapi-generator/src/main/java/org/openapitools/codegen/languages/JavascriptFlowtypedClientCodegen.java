@@ -115,8 +115,6 @@ public class JavascriptFlowtypedClientCodegen extends AbstractTypeScriptClientCo
         supportingFiles.add(new SupportingFile("index.mustache", "src", "index.js"));
         supportingFiles.add(new SupportingFile("api.mustache", "src", "api.js"));
         supportingFiles.add(new SupportingFile("configuration.mustache", "src", "configuration.js"));
-        supportingFiles.add(new SupportingFile("DefaultHttpClient.mustache", "src", "DefaultHttpClient.js"));
-        supportingFiles.add(new SupportingFile("HttpClient.mustache", "src", "HttpClient.js"));
 
         supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
 
