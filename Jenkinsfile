@@ -14,7 +14,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    serviceBuild.runMavenGoals("clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -pl modules/openapi-generator-cli -am", true, "OpenJDK 11", "Maven 3.9.5")
+                    serviceBuild.runMavenGoals("clean install -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -pl modules/openapi-generator-cli -am", true, "OpenJDK 11", "Maven 3.8.4")
                 }
             }
         }
