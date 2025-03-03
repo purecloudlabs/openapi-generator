@@ -30,6 +30,8 @@ public class PureCloudGoClientCodegen extends GoClientCodegen {
         typeMapping.put("local-date-time", "time.Time");
         apiDocTemplateFiles.put("api_json.mustache", ".json");
         operationTemplateFiles.put("operation_example.mustache", "-example.txt");
+        // Add special reserved words
+        reservedWords.add("string");
     }
 
     @Override
