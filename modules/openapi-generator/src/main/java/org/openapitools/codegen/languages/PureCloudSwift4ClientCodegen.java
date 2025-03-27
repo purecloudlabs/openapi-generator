@@ -193,19 +193,48 @@ public class PureCloudSwift4ClientCodegen extends Swift4Codegen {
                 property.enumName = property.datatypeWithEnum;
 
             property.allowableValues = property.items.allowableValues;
+        } else if (property.isContainer &&
+                property.isArray &&
+                property.containerType != null && property.containerType.equals("array") &&
+                property.items != null && !property.items.isEnum && !(property.complexType == null) &&
+                (!property.dataType.contains("[Dictionary]") || !property.datatypeWithEnum.contains("[Dictionary]"))) {
+
+            property.dataType = "[" + property.items.dataType + "]";;
+            property.datatypeWithEnum = "[" + property.items.datatypeWithEnum + "]";;
+            property.complexType = "[" + property.items.complexType + "]";;
+            property.containerType = property.items.containerType;
         }
         property.dataType = property.dataType.replace("[Dictionary]", "[[String:JSON]]");
         property.datatypeWithEnum = property.datatypeWithEnum.replace("[Dictionary]", "[[String:JSON]]");
 
         if (property.baseType.equals("StringJSON") && !(property.complexType == null)) {
-            if (!property.datatypeWithEnum.contains("[[String:JSON]]") || !property.dataType.contains("[[String:JSON]]")) {
-                boolean startsWithThing = property.dataType.startsWith("[") || property.datatypeWithEnum.startsWith("[");
+            if ((!property.datatypeWithEnum.contains("[[String:JSON]]") && !property.datatypeWithEnum.contains("[[String]]")) ||
+                (!property.dataType.contains("[[String:JSON]]") && !property.dataType.contains("[[String]]"))) {
+                boolean startsWithArray = property.dataType.startsWith("[") || property.datatypeWithEnum.startsWith("[");
                 property.dataType = toModelName(property.dataType);
                 property.datatypeWithEnum = toModelName(property.datatypeWithEnum);
 
-                if (startsWithThing && !property.dataType.startsWith("[") || !property.datatypeWithEnum.startsWith("[")) {
+                if (startsWithArray && (!property.dataType.startsWith("[") || !property.datatypeWithEnum.startsWith("["))) {
                     property.dataType = "[" + property.dataType + "]";
                     property.datatypeWithEnum = "[" + property.datatypeWithEnum + "]";
+                }
+            }
+        } else if (!property.baseType.equals("StringJSON") && !(property.complexType == null)) {
+            boolean startsWithArray = property.dataType.startsWith("[") || property.datatypeWithEnum.startsWith("[");
+            boolean startsWithStringMap = property.dataType.startsWith("[String:") || property.datatypeWithEnum.startsWith("[String:");
+            boolean startsWithStringMapArray = property.dataType.startsWith("[String:[") || property.datatypeWithEnum.startsWith("[String:[");
+            property.dataType = toModelName(property.dataType);
+            property.datatypeWithEnum = toModelName(property.datatypeWithEnum);
+
+            if (startsWithArray && (!property.dataType.startsWith("[") || !property.datatypeWithEnum.startsWith("["))) {
+                property.dataType = "[" + property.dataType + "]";
+                property.datatypeWithEnum = "[" + property.datatypeWithEnum + "]";
+                if (startsWithStringMapArray && (!property.dataType.startsWith("[String:[") || !property.datatypeWithEnum.startsWith("[String:["))) {
+                    property.dataType = property.dataType.replace("[String", "[String:[") + "]";;
+                    property.datatypeWithEnum = property.datatypeWithEnum.replace("[String", "[String:[") + "]";;
+                } else if (startsWithStringMap && (!property.dataType.startsWith("[String:") || !property.datatypeWithEnum.startsWith("[String:"))) {
+                    property.dataType = property.dataType.replace("[String", "[String:");
+                    property.datatypeWithEnum = property.datatypeWithEnum.replace("[String", "[String:");
                 }
             }
         }
