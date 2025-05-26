@@ -35,15 +35,12 @@ public class PrefixNumberWithValue implements Mustache.Lambda {
                     line = value + line;
                 }
             } catch (Exception e) {
-                try {
-                    // Starts with a digit
-                    String first = line.substring(0, 1);
-                    Integer.parseInt(first);
+                // Check if string starts with a digit
+                if (Character.isDigit(line.charAt(0))) {
+                    // Add prefix
                     line = value + line;
-                } catch (Exception ex) {
-                    // NOOP
-                    
                 }
+                // NOOP
             }
         }
         line = line

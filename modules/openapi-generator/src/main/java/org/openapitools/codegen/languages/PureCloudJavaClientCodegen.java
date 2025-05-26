@@ -203,6 +203,33 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
                             }
                         }
                     }
+                } else if (cp.isArray && cp.items != null && cp.items.isEnum && cp.items.allowableValues != null) {
+                    Object valuesObject = cp.items.allowableValues.get("values");
+                    if (valuesObject != null) {
+                        ArrayList valuesArray = (ArrayList) valuesObject;
+                        if (valuesArray.get(0) instanceof Integer) {
+                            // Integer enum type
+                            valuesArray.add(0, -1);
+                            Object enumVarsObject = cp.items.allowableValues.get("enumVars");
+                            ArrayList enumVarsArray = (ArrayList) enumVarsObject;
+                            HashMap<String, String> newItem = new HashMap<>();
+                            newItem.put("name", "OUTDATEDSDKVERSION");
+                            newItem.put("value", toEnumValue("-1", "Integer"));
+                            enumVarsArray.add(0, newItem);
+                        } else {
+                            // String enum type
+                            if (!valuesArray.get(0).equals("OutdatedSdkVersion")) {
+                                valuesArray.add(0, "OutdatedSdkVersion");
+                                Object enumVarsObject = cp.items.allowableValues.get("enumVars");
+                                ArrayList enumVarsArray = (ArrayList) enumVarsObject;
+                                HashMap<String, String> newItem = new HashMap<>();
+                                newItem.put("name", "OUTDATEDSDKVERSION");
+                                newItem.put("isString", "true");
+                                newItem.put("value", toEnumValue("OutdatedSdkVersion", "String"));
+                                enumVarsArray.add(0, newItem);
+                            }
+                        }
+                    }
                 }
                 vars.add(cp);
             }
