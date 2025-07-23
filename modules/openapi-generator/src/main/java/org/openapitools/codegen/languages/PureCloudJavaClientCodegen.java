@@ -104,6 +104,10 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
         if (op.returnType != null && op.responses.get(0).jsonSchema.contains("#/components/schemas/Configuration")) {
             op.returnType = "ModelConfiguration";
         }
+        
+        if (op.returnType != null && op.responses.get(0).jsonSchema.contains("#/components/schemas/Case")) {
+            op.returnType = "ModelCase";
+        }
 
         return op;
     }
