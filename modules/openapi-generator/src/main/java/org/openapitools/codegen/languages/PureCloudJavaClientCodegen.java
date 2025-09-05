@@ -20,6 +20,8 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
 
     protected Logger LOGGER = LoggerFactory.getLogger(PureCloudJavaClientCodegen.class);
 
+    protected Set<String> reservedModelNames;
+
     public PureCloudJavaClientCodegen() {
         super();
 
@@ -42,6 +44,7 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
         importMapping.put("HashMap", "java.util.HashMap");
         importMapping.put("Map", "java.util.Map");
         importMapping.put("BigDecimal", "java.math.BigDecimal");
+        importMapping.put("Duration", "java.time.Duration");
 
         // Type overrides
         typeMapping.put("date", "LocalDate");
@@ -53,6 +56,11 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
         // Add special reserved words
         reservedWords.add("null");
         reservedWords.add("request");
+
+        // Add special reserved words for Model Names
+        reservedModelNames = new HashSet<String>();
+        reservedModelNames.add("configuration");
+        reservedModelNames.add("case");
 
         operationTemplateFiles.put("requestBuilder.mustache", ".java");
         //supportingFiles.add(new SupportingFile("testng.mustache", "", "testng.xml"));
@@ -267,6 +275,9 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
 
         Set<String> imports = new HashSet<>();
         for (String im : codegenModel.imports) {
+            if (im != null && reservedModelNames.contains(im.toLowerCase(Locale.ROOT))) {
+                im = "Model" + im;
+            }
             imports.add(im.replaceAll("_+$", ""));
         }
         codegenModel.imports = imports;
@@ -280,6 +291,37 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
             var.defaultValue = var.defaultValue
                     .replaceAll("_+$", "")
                     .replaceAll("_+(>)", "$1");
+
+            if (var.datatypeWithEnum != null && reservedModelNames.contains(var.datatypeWithEnum.toLowerCase(Locale.ROOT))) {
+                var.datatypeWithEnum = "Model" + var.datatypeWithEnum;
+                if (var.dataType != null && reservedModelNames.contains(var.dataType.toLowerCase(Locale.ROOT))) {
+                    var.dataType = "Model" + var.dataType;
+                }
+            }
+            
+            if (var.datatypeWithEnum.startsWith("List<")) {
+                String eltEnumName = var.datatypeWithEnum.substring(5, var.datatypeWithEnum.length() - 1);
+                if (eltEnumName != null && reservedModelNames.contains(eltEnumName.toLowerCase(Locale.ROOT))) {
+                    var.datatypeWithEnum = "List<" + "Model" + eltEnumName + ">";
+                    if (var.defaultValue != null) {
+                        var.defaultValue = var.defaultValue.replace("<" + eltEnumName + ">", "<" + "Model" + eltEnumName + ">");
+                    }
+                    String eltName = var.dataType.substring(5, var.dataType.length() - 1);
+                    if (eltName != null && reservedModelNames.contains(eltName.toLowerCase(Locale.ROOT))) {
+                        var.dataType = "List<" + "Model" + eltName + ">";
+                    }
+                }
+            }
+            if (var.datatypeWithEnum.startsWith("Map<String, ")) {
+                String eltEnumName = var.datatypeWithEnum.substring(12, var.datatypeWithEnum.length() - 1);
+                if (eltEnumName != null && reservedModelNames.contains(eltEnumName.toLowerCase(Locale.ROOT))) {
+                    var.datatypeWithEnum = "Map<String, " + "Model" + eltEnumName + ">";
+                    String eltName = var.dataType.substring(12, var.dataType.length() - 1);
+                    if (eltName != null && reservedModelNames.contains(eltName.toLowerCase(Locale.ROOT))) {
+                        var.dataType = "Map<String, " + "Model" + eltName + ">";
+                    }
+                }
+            }
         }
 
         for (String s : Arrays.asList("pageSize","pageNumber","total","selfUri","firstUri","previousUri","nextUri","lastUri","pageCount", "entities")) {
