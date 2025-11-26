@@ -109,8 +109,13 @@ public class PureCloudPythonClientCodegen extends PythonClientCodegen {
                             value =  cp.dataType.substring(cp.dataType.indexOf(' ') + 1, cp.dataType.indexOf(')') + 1);
                             String innerKey =  value.substring(value.indexOf('(') + 1, value.indexOf(','));
                             String innerValue =  value.substring(value.indexOf(' ') + 1, value.indexOf(')'));
-                            String newDataType = "Dict" + "[" + key + "," + " " + "Dict" + "[" + innerKey + "," + " " + innerValue + "]" + "]";
-                            cp.vendorExtensions.put("x-dataType", newDataType);
+                            if (Character.isUpperCase(innerValue.charAt(0))) {
+                                String newDataType = "Dict" + "[" + key + "," + " " + "Dict" + "[" + innerKey + "," + " " + "'" + innerValue + "'" + "]" + "]";
+                                cp.vendorExtensions.put("x-dataType", newDataType);
+                            } else {
+                                String newDataType = "Dict" + "[" + key + "," + " " + "Dict" + "[" + innerKey + "," + " " + innerValue + "]" + "]";
+                                cp.vendorExtensions.put("x-dataType", newDataType);
+                            }
                         } else if (value.contains("list[")) {
                             String item = cp.dataType.substring(cp.dataType.indexOf('[') + 1, cp.dataType.indexOf(']'));
                             if (Character.isUpperCase(item.charAt(0))) {
