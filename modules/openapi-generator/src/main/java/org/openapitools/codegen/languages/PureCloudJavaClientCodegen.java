@@ -105,15 +105,15 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
             op.bodyParam.dataType = "Object";
         }
 
-        if (op.returnType != null && op.returnType.equals("Object") && op.responses.size() > 0 && op.responses.get(0).jsonSchema.contains("#/components/schemas/Empty")) {
+        if (op.returnType != null && op.returnType.equals("Object") && op.responses.size() > 0 && op.responses.get(0).jsonSchema.contains("#/components/schemas/Empty\"")) {
             op.returnType = "Empty";
         }
 
-        if (op.returnType != null && op.responses.get(0).jsonSchema.contains("#/components/schemas/Configuration")) {
+        if (op.returnType != null && op.responses.get(0).jsonSchema.contains("#/components/schemas/Configuration\"")) {
             op.returnType = "ModelConfiguration";
         }
         
-        if (op.returnType != null && op.responses.get(0).jsonSchema.contains("#/components/schemas/Case")) {
+        if (op.returnType != null && op.responses.get(0).jsonSchema.contains("#/components/schemas/Case\"")) {
             op.returnType = "ModelCase";
         }
 
