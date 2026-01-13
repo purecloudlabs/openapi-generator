@@ -26,6 +26,7 @@ public class PureCloudDotNetClientCodegen extends CSharpClientCodegen {
         typeMapping.put("date", "String" );
         typeMapping.put("LocalDateTime", "DateTime?");
         typeMapping.put("LocalTime", "DateTime?");
+        typeMapping.put("YearMonth", "String" );
         typeMapping.put("Dictionary<string, Object>", "Object");
         typeMapping.put("decimal", "double");
         typeMapping.put("decimal?", "double?");

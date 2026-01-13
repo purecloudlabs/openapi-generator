@@ -33,6 +33,7 @@ public class PureCloudSwift4ClientCodegen extends Swift4Codegen {
         // Custom mappings and overrides for swagger type -> swift type
         typeMapping.put("object", "JSON");
         typeMapping.put("LocalDateTime", "String");
+        typeMapping.put("YearMonth", "String");
         typeMapping.put("URI", "String");
         typeMapping.put("uri", "String");
         typeMapping.put("Dictionary", "String:JSON");
