@@ -2125,6 +2125,11 @@ public abstract class DefaultCodegen implements CodegenConfig {
                 // This is a datatype that contains a date and time, but no timezone
                 return "LocalDateTime";
             }
+            if ("year-month".equals(schema.getFormat())) {
+                // Override for custom swagger format: year-month
+                // This is a datatype that contains a year and month, but no day
+                return "YearMonth";
+            }
             return "string";
         } else if (isFreeFormObject(schema)) {
             // Note: the value of a free-form object cannot be an arbitrary type. Per OAS specification,
