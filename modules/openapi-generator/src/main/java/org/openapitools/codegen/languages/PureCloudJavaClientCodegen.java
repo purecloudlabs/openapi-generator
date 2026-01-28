@@ -371,6 +371,7 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
         replaceMap.put(".", "_");
         replaceMap.put("-", "_");
         replaceMap.put("/", "_");
+        replaceMap.put("+", "_");
         replaceMap.put(":", "_");
         replaceMap.put("__", "_");
 
