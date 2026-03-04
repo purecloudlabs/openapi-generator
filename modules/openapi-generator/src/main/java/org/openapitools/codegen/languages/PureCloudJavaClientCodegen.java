@@ -129,6 +129,10 @@ public class PureCloudJavaClientCodegen extends JavaClientCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
+                if (operation.notes != null) {
+                    // [DEVTOOLING-1604] Escape */* in description - this interferes with javadoc comments and annotations - transforms */* -> *\\/\\*
+                    operation.notes = operation.notes.replaceAll("\\*/\\*","*\\\\\\\\/\\\\\\\\*");
+                }
                 for (CodegenParameter param : operation.allParams) {
                     Map<String, Object> allowableValues = param.allowableValues;
                     if (allowableValues != null) {
