@@ -767,6 +767,8 @@ public class PureCloudJavaScriptClientCodegen extends DefaultCodegen implements 
                 }
                 if (operation.notes != null) {
                     operation.notes = processNotes(operation.notes);
+                    // [DEVTOOLING-1606] Escape */* in description - this interferes with javadoc comments and annotations - transforms */* -> \*\/\*
+                    operation.notes = operation.notes.replaceAll("\\*/\\*","\\\\*\\\\/\\\\*");
                 }
                 List<String> argList = new ArrayList<>();
                 boolean hasOptionalParams = false;
