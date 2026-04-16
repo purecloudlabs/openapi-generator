@@ -24,6 +24,7 @@ public class PureCloudPythonClientCodegen extends PythonClientCodegen {
         apiDocTemplateFiles.put("api_json.mustache", ".json");
         operationTemplateFiles.put("operation_example.mustache", "-example.txt");
         typeMapping.put("file", "str");
+        supportingFiles.add(new SupportingFile("pyproject.mustache", "", "pyproject.toml"));
     }
 
 
