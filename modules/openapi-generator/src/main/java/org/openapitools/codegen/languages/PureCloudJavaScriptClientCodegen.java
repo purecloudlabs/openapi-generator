@@ -280,6 +280,7 @@ public class PureCloudJavaScriptClientCodegen extends DefaultCodegen implements 
         // make api and model doc path available in mustache template
         additionalProperties.put("apiDocPath", apiDocPath);
         supportingFiles.add(new SupportingFile("package.mustache", "", "package.json"));
+        supportingFiles.add(new SupportingFile("package-lock.mustache", "", "package-lock.json"));
         supportingFiles.add(new SupportingFile("index.mustache", createPath(sourceFolder, invokerPackage), "index.js"));
         supportingFiles.add(new SupportingFile("ApiClient.mustache", createPath(sourceFolder, invokerPackage), "ApiClient.js"));
         supportingFiles.add(new SupportingFile("configuration.mustache", createPath(sourceFolder, invokerPackage), "configuration.js"));
