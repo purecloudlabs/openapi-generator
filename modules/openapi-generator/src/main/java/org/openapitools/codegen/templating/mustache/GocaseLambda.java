@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Locale;
 
-import static org.openapitools.codegen.utils.StringUtils.underscore;
-
 /**
  * Converts text in a fragment to snake case.
  * <p>
